@@ -14,9 +14,9 @@ def delta_phi(ticks: int, prev_ticks: int, resolution: int) -> Tuple[float, floa
         ticks: current number of ticks.
     """
 
-    ticks = ticks-prev_ticks
+    dticks = ticks-prev_ticks
     wheel_rot_per_tick = 2 * np.pi / resolution
-    dphi = ticks* wheel_rot_per_tick
+    dphi = dticks* wheel_rot_per_tick
 
     return dphi, ticks
 
