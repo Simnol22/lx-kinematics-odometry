@@ -14,10 +14,10 @@ def delta_phi(ticks: int, prev_ticks: int, resolution: int) -> Tuple[float, floa
         ticks: current number of ticks.
     """
 
-    # TODO: these are random values, you have to implement your own solution in here
-    ticks = prev_ticks + int(np.random.uniform(0, 10))
-    dphi = np.random.random()
-    # ---
+    ticks = ticks-prev_ticks
+    wheel_rot_per_tick = 2 * np.pi / resolution
+    dphi = ticks* wheel_rot_per_tick
+
     return dphi, ticks
 
 
@@ -49,10 +49,20 @@ def estimate_pose(
         y_curr:                  estimated y coordinate
         theta_curr:              estimated heading
     """
+    d_left = R*delta_phi_left
+    d_right = R*delta_phi_right
 
-    # These are random values, replace with your own
-    x_curr = np.random.random()
-    y_curr = np.random.random()
-    theta_curr = np.random.random()
+    distance_traveled = (d_left + d_right)/2 
+    
+    robot_rot = (d_right-d_left)/baseline # [radians]
+    L = baseline/2
+   
+    dx = distance_traveled * np.cos(theta_prev)
+    dy = distance_traveled * np.sin(theta_prev)
+    dtheta = R / baseline * (delta_phi_right-delta_phi_left)
+    
+    x_curr = x_prev + dx
+    y_curr = y_prev + dy
+    theta_curr = theta_prev + dtheta
     # ---
     return x_curr, y_curr, theta_curr
